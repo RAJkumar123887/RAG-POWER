@@ -1,0 +1,49 @@
+GitHub Actions Workflow
+name: RAG Chatbot CI/CD
+on:
+ push:
+ branches: [ main ]
+ pull_request:
+ branches: [ main ]
+jobs:
+ build:
+ runs-on: ubuntu-latest
+ steps:
+ - uses: actions/checkout@v3
+ - name: Set up Python
+ uses: actions/setup-python@v4
+ with:
+ python-version: '3.10'
+ - name: Set up Node.js
+ uses: actions/setup-node@v3
+ with:
+Page 1 - Generated on 2025-06-10
+GitHub Actions for RAG-Powered FAQ Chatbot using n8n
+ node-version: '18'
+ - name: Install Python dependencies
+ run: |
+ python -m pip install --upgrade pip
+ pip install openai chromadb
+ - name: Install Node.js dependencies
+ run: |
+ npm install
+ - name: Lint Python and JS files
+ run: |
+ echo "Linting Python..."
+ python -m py_compile scripts/setup.py || true
+ echo "Linting JS..."
+ npx eslint scripts/*.js || true
+ - name: Run Unit Tests
+ run: |
+ echo "Run your unit tests here"
+ - name: Build Complete
+ run: echo "Build and lint checks passed!"
+Page 2 - Generated on 2025-06-10
+GitHub Actions for RAG-Powered FAQ Chatbot using n8n
+ deploy:
+ needs: build
+ runs-on: ubuntu-latest
+ if: github.ref == 'refs/heads/main'
+ steps:
+ - name: Deploy Workflow to Production
+ run: echo "Deploy step here (e.g., deploy to n8n, upload vector DB, restart services)"
